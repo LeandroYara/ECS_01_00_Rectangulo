@@ -3,15 +3,14 @@ import pygame
 import esper
 import random
 from src.create.prefab_creator import generar_enemigo
-from src.ecs.components.r_enemy_spawner import RLevel
+from src.ecs.components.r_enemy_spawner import REnemySpawner
 
 ef = open('assets/cfg/enemies.json')
 eData = json.load(ef)
 
 def system_enemy_spawner(world:esper.World, runtime:int):
-        components = world.get_components(RLevel)
-        
-        r_l:RLevel
+        components = world.get_component(REnemySpawner)
+        r_l:REnemySpawner
         
         for entity, r_l in components:
                 if r_l.timestamp >= runtime:
