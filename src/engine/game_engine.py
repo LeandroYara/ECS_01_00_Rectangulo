@@ -19,7 +19,10 @@ class GameEngine:
         self.screen = pygame.display.set_mode((wsize["w"],wsize["h"]), pygame.SCALED)
         self.clock = pygame.time.Clock()
         self.is_running = False
-        self.framerate = self.wData["framerate"]
+        if self.wData["framerate"] == 0:
+            self.framerate = 60
+        else:
+            self.framerate = self.wData["framerate"]
         self.delta_time = 0
         self.ecs_world = esper.World()
 
