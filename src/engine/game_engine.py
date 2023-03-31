@@ -14,6 +14,12 @@ class GameEngine:
         pygame.init()
         wf = open('assets/cfg/window.json')
         self.wData = json.load(wf)
+        lf = open('assets/cfg/level_01.json')
+        lData = json.load(lf)
+        events = lData['enemy_spawn_events']
+        self.lTime = []
+        for event in events:
+            self.lTime.append(event['time'])
         wsize = self.wData["size"]
         self.title = self.wData["title"]
         self.screen = pygame.display.set_mode((wsize["w"],wsize["h"]), pygame.SCALED)
@@ -61,7 +67,10 @@ class GameEngine:
     def _update(self):
         system_movement(self.ecs_world, self.delta_time)
         system_screen_bounce(self.ecs_world, self.screen)
-        system_enemy_spawner(self.ecs_world, self.runtime)
+        if self.lTime:
+            if (min(self.lTime) <= self.runtime/1000):
+                system_enemy_spawner(self.ecs_world, self.runtime)
+                self.lTime = [x for x in self.lTime if x > self.runtime/1000]
 
     def _draw(self):
         rgb = self.wData["bg_color"]
