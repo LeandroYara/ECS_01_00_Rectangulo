@@ -16,9 +16,9 @@ class GameEngine:
         self.wData = json.load(wf)
         lf = open('assets/cfg/level_01.json')
         lData = json.load(lf)
-        events = lData['enemy_spawn_events']
+        self.events = lData['enemy_spawn_events']
         self.lTime = []
-        for event in events:
+        for event in self.events:
             self.lTime.append(event['time'])
         wsize = self.wData["size"]
         self.title = self.wData["title"]
@@ -43,16 +43,12 @@ class GameEngine:
         self._clean()
 
     def _create(self):
-        lf = open('assets/cfg/level_01.json')
-        lData = json.load(lf)
-        if lData:
-            eList = lData['enemy_spawn_events']
-            for enemy in eList:
-                positions = enemy['position']
-                time = enemy['time']
-                tipo = enemy['enemy_type']
-                pos = pygame.Vector2(positions['x'], positions['y'])
-                crear_enemigo(self.ecs_world, time, tipo, pos)
+        for enemy in self.events:
+            positions = enemy['position']
+            time = enemy['time']
+            tipo = enemy['enemy_type']
+            pos = pygame.Vector2(positions['x'], positions['y'])
+            crear_enemigo(self.ecs_world, time, tipo, pos)
 
     def _calculate_time(self):
         self.clock.tick(self.framerate)
