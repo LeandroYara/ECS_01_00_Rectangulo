@@ -13,7 +13,7 @@ data = json.load(f)
   
 # Iterating through the json
 # list
-print(data['enemy_spawn_events'])
+print(data)
   
 # Closing file
 f.close()
